@@ -1,0 +1,66 @@
+{% extends 'print/base.html' %}
+
+
+{% block body %}
+<div>
+   <page size="A4">
+      {% for m in marks %}
+       {% if m.semester %}
+      <table class="table"  align="center">
+         <tr align="center">
+            <th colspan="5"> BẢNG ĐIỂM MÔN HỌC</th>
+         </tr>
+
+          {% for c in classes %}
+         <tr>
+            <td colspan="3" >Lớp: {{ c.grade + c.name }} </td>
+            <td colspan="2" >Môn: {{ c[0] }} </td>
+         </tr>
+         <tr>
+            <td colspan="3" >Học kỳ: {{ m.semester }} </td>
+            <td colspan="2" >Năm học: </td>
+         </tr>
+          {% endfor %}
+         <tr>
+            <td>STT  </td>
+            <td>Họ tên </td>
+            <td>Điểm 15' </td>
+            <td>Điểm 1 tiết </td>
+            <td>Điểm thi </td>
+         </tr>
+
+            <tr>
+                <td>{{ marks.index(m) + 1 }}</td>
+                <td class="name">{{ m.student_name }} </td>
+                <td class="marks mark15_{{ m.student_id }}">
+                    {% for i in m.mark15 %}
+                        {% if i %}
+                            {{ i }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+
+                <td class="marks mark45_{{ m.student_id }}">
+                    {% for i in m.mark45 %}
+                        {% if i %}
+                            {{ i }}
+                        {% endif %}
+                    {% endfor %}
+                </td>
+
+                <td class="marks" id="final_mark_{{ m.student_id }}">
+                    {% if m.final_mark  %}
+                        {{ m.final_mark }}
+                    {% else %}
+
+                    {% endif %}
+                </td>
+            </tr>
+         </tr>
+      </table>
+       {% endif %}
+      {% endfor %}
+   </page>
+
+</div>
+{% endblock %}

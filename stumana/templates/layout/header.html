@@ -1,0 +1,73 @@
+<script src="{{ url_for('static', filename='js/header_script.js') }}" ></script>
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+   <a class="navbar-brand" href="/">
+    <img src="https://res.cloudinary.com/quoc2401/image/upload/v1639310528/logo_muibye.png"
+         alt="Logo" style="width:40px;">
+   </a>
+
+   <!--Navbar links-->
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li>
+                <a class="nav-link nav-item " id="nav_" href="/" >
+                    <i class="fa fa-home"></i>Trang chủ</a>
+            </li>
+            <li>
+                <a class="nav-link nav-item active" id="nav_intro" href="#">
+                    <i class="fa fa-info"></i>Giới thiệu</a>
+            </li>
+            <li>
+                <a class="nav-link nav-item" id="nav_contact" href="/#lienhe">
+                    <i class="fa fa-phone"></i>Liên hệ</a>
+            </li>
+        </ul>
+    </div>
+    {% if current_user.is_authenticated %}
+        {% if current_user.user_role == UserRole.ADMIN %}
+         <a class="nav-link text-danger mr-auto" href="/admin">ADMIN</a>
+        {% else %}
+        <div class="btn-group">
+            <a class="nav-link text-success mr-auto dropdown-toggle"
+                href="#"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">Chức năng</a>
+
+            {% if current_user.user_role == UserRole.TEACHER %}
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="nav-link nav-item text-info mr-auto" id="nav_students_marks"
+                   href="{{ url_for('students_marks') }}">Nhập điểm</a>
+<!--                <a class="nav-link nav-item text-info mr-auto" id="nav_export_marks" href="{{ url_for('students_marks') }}">Xuất điểm</a>-->
+            </div>
+            {% endif %}
+        </div>
+        {% endif %}
+        <div class="btn-group">
+             <a class="nav-link text-primary mr-auto dropdown-toggle"
+                href="#"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false">
+                {% if current_user.avatar %}
+                <img src="{{ current_user.avatar }}" class="rounded-circle" width="30" alt="avatar" />
+                {% else %}
+                <img src="{{ url_for('static', filename='images/avatar.png') }}"
+                     class="rounded-circle" width="30" alt="avatar" />
+                {% endif %}
+
+                {{ current_user.name }}
+             </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="nav-link nav-item text-info mr-auto" id="nav_user_info" href="#">Thông tin cá nhân</a>
+                <a class="nav-link nav-item text-info mr-auto" id="nav_change_pw" href="#">Đổi mật khẩu</a>
+                <a class="nav-link nav-item text-info mr-auto" id="nav_user_logout"
+                   href="{{ url_for('user_logout') }}">Đăng xuất</a>
+                <div class="dropdown-divider"></div>
+                <p style="margin-left:5px">Mã người dùng: {{ current_user.id }}</p>
+            </div>
+        </div>
+    {% else %}
+        <a class="nav-link nav-item text-success mr-auto" id="nav_user_login" href="{{ url_for('user_login') }}">
+            <i class="fas fa-sign-in-alt"></i>Đăng nhập</a>
+    {% endif %}
+</nav>

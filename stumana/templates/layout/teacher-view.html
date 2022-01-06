@@ -1,0 +1,81 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Chức năng giáo viên {% endblock %}
+
+{% block body %}
+  <div class="container-fluid" style="margin-top:25px;">
+      <div class="d-flex" id="wrapper">
+        <!-- Sidebar -->
+        <div class="bg-lightgray border-right border-left vh-100" id="sidebar-wrapper"
+             style="height:67vh!important; padding:10px;">
+            <div class="list-group list-group-flush overflow-auto h-100">
+                <div class="sidebar-heading bg-light border">
+                <i class="fas fa-podcast"></i>Các lớp học phụ trách
+                </div>
+                <div style="padding: 10px 0;">
+                    <input type="text" class="form-control" name="keyword" placeholder="Tìm kiếm...">
+                </div>
+                <a href=" {{ url_for('students_marks') }} " class="list-group-item list-group-item-action bg-light border">
+                    <div>
+                        <i class="fa fa-tachometer" aria-hidden="true"></i><span>Dashboard</span>
+                    </div>
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-light border">
+                    <div>
+                        <i class="fas fa-calendar"></i><span>Lịch</span>
+                    </div>
+                </a>
+                {% for c in classes %}
+                <a href="{{ url_for('students_marks', course_id=c[3] ) }}"
+                   class="list-group-item list-group-item-action bg-light border">
+                    <div class="sidebar-item">
+                        <i class="fas fa-podcast"></i><span>{{ c[0] }} - {{ c[1] }}{{ c[2] }}</span>
+                    </div>
+                </a>
+                {% endfor %}
+                <a href="#"
+                   class="list-group-item list-group-item-action bg-light border">
+                    <div class="sidebar-item">
+                        <i class="fas fa-podcast"></i><span>Test scrollable sidebar</span>
+                    </div>
+                </a>
+                <a href="#"
+                   class="list-group-item list-group-item-action bg-light border">
+                    <div class="sidebar-item">
+                        <i class="fas fa-podcast"></i><span>Test scrollable sidebar</span>
+                    </div>
+                </a>
+                <a href="#"
+                   class="list-group-item list-group-item-action bg-light border">
+                    <div class="sidebar-item">
+                        <i class="fas fa-podcast"></i><span>Test scrollable sidebar</span>
+                    </div>
+                </a>
+                <a href="#"
+                   class="list-group-item list-group-item-action bg-light border">
+                    <div class="sidebar-item">
+                        <i class="fas fa-podcast"></i><span>Test scrollable sidebar</span>
+                    </div>
+                </a>
+                <a href="#"
+                   class="list-group-item list-group-item-action bg-light border">
+                    <div class="sidebar-item">
+                        <i class="fas fa-podcast"></i><span>Test scrollable sidebar</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+        <!-- Page Content -->
+
+        <div id="page-content-wrapper">
+            <div class="container-fluid border" style="min-height:67vh">
+                {% block content %}
+
+                {% endblock %}
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+  </div>
+{% endblock %}

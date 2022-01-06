@@ -1,0 +1,30 @@
+{% extends 'print/base.html' %}
+
+
+{% block body %}
+
+   <page size="A4">
+   {% for i in info_student  %}
+      <table class="table"  align="center">
+
+         <tr align="center">
+            <th colspan="2"> HỒ SƠ HỌC SINH</th>
+         </tr>
+         <tr>
+            <td>Họ tên: {{ i.last_name }}  {{ i.first_name }}  </td>
+            <td>Giới tính: {{ i.sex }}  </td>
+         </tr>
+         <tr>
+            <td>Ngày sinh: {{ i.bday }} </td>
+            <td>Địa chỉ: {{ i.address }}  </td>
+         </tr>
+         <tr>
+            <td>Số điện thoại: {{ i.phone }}  </td>
+            <td>Email: {{ i.email }} </td>
+         </tr>
+      {% endfor %}
+      </table>
+   </page>
+
+
+{% endblock %}

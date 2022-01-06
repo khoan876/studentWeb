@@ -1,0 +1,40 @@
+{% extends 'layout/base.html' %}
+
+{% block title %}Đăng nhập{% endblock %}
+
+{% block body %}
+<h1 class="text-center heading" style="margin-top:50px;">Đăng nhập</h1>
+
+{% if error_msg %}
+<div class="alert alert-danger">
+    {{ error_msg }}
+</div>
+{% endif %}
+
+
+<div class="form-login" style="margin:0 auto; width:500px; height:400px;">
+    <form method="post">
+        <div class="form-group">
+           <label for="username">Tài khoản:</label>
+           <input type="text"
+                  name="username"
+                  class="form-control"
+                  id="username"
+                  placeholder="Nhập tài khoản..." required />
+       </div>
+        <div class="form-group">
+           <label for="password">Mật khẩu:</label>
+           <input type="password"
+                  name="password"
+                  class="form-control"
+                  id="password"
+                  placeholder="Nhập mật khẩu..." required />
+       </div>
+        <div class="flex">
+            <input type="submit" value="Đăng nhập" class="btn btn-danger" />
+            <a href="#" class="text text-info ml-auto">Quên mật khẩu</a>
+        </div>
+    </form>
+</div>
+<br>
+{% endblock %}

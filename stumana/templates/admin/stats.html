@@ -1,0 +1,128 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+<div class="container">
+    <h1 class="text-center">Thống kê kết quả</h1>
+    <br>
+    <div class="container-fluid row">
+      <div class="col-md-6">
+          <form>
+              <div class="form-group">
+                <select id="subject" class="form-control" name="subject">
+                    <option>Môn học</option>
+                    {% for s in subjects %}
+                    <option value="{{ s[0] }}">{{ s[0] }}</option>
+                    {% endfor %}
+                  </select>
+              </div>
+              <div class="form-group">
+                  <select id="semester" class="form-control" name="semester">
+                    <option>Học kỳ</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                  </select>
+              </div>
+              <div class="form-group">
+                  <select id="year" class="form-control" name="year">
+                      <option>Năm</option>
+                      <option value="2000">2000</option>
+                      <option value="2001">2001</option>
+                      <option value="2002">2002</option>
+                      <option value="2003">2003</option>
+                      <option value="2004">2004</option>
+                      <option value="2005">2005</option>
+                      <option value="2006">2006</option>
+                      <option value="2007">2007</option>
+                      <option value="2008">2008</option>
+                      <option value="2009">2009</option>
+                      <option value="2010">2010</option>
+                      <option value="2011">2011</option>
+                      <option value="2012">2012</option>
+                      <option value="2013">2013</option>
+                      <option value="2014">2014</option>
+                      <option value="2015">2015</option>
+                      <option value="2016">2016</option>
+                      <option value="2017">2017</option>
+                      <option value="2018">2018</option>
+                      <option value="2019">2019</option>
+                      <option value="2020">2020</option>
+                      <option value="2021">2021</option>
+                  </select>
+              </div>
+                <input type="submit" value="Thống kê" class="btn btn-info">
+          </form>
+        <br>
+
+        <table class="table table-striped table-hover table-responsive">
+          <thead>
+          <tr>
+            <td colspan="5"><h4 class="text-center text-danger">Báo cáo tổng kết môn học</h4></td>
+          </tr>
+          <tr>
+            <td colspan="3">Môn: {{ request.args.get('subject', 'Toán 11') }}</td>
+            <td>Học kỳ: {{ request.args.get('semester', '1') }}</td>
+            <td >Năm học: {{ request.args.get('year', year) }}</td>
+          </tr>
+            <tr>
+              <th>Mã lớp</th>
+              <th>Lớp</th>
+              <th>Sỉ số</th>
+              <th>Số lượng đạt</th>
+              <th>Tỉ lệ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for s in stats %}
+            <tr>
+              <td>{{ s.class_id }}</td>
+              <td>{{ s.class_name }}</td>
+              <td>{{ s.total }}</td>
+              <td>{{ s.total_qualified }}</td>
+              <td>{{ s.ratio }} %</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="col-md-6">
+        <br>
+        <br>
+        <br>
+        <canvas id="myChart" width="100" height="100"></canvas>
+      </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+<!--  lay du lieu bo vao chart js-->
+  let labels = [], total = 0, total_qualified = 0, data = [] , colors = [], borderColors = []
+  let r, g, b
+  {% for s in stats %}
+    total += {{s.total}};
+    total_qualified += {{s.total_qualified}}
+  {% endfor %}
+
+  {% for i in range(2) %}
+  <!--    Random mau-->
+    r = parseInt(Math.random()*255)
+    g = parseInt(Math.random()*255)
+    b = parseInt(Math.random()*255)
+    colors.push(`rgba(${r}, ${g}, ${b}, 0.2)`)
+    borderColors.push(`rgba(${r}, ${g}, ${b}, 1)`)
+  {% endfor %}
+
+  labels.push('Rớt')
+  labels.push('Đậu')
+  data.push(total - total_qualified)
+  data.push(total_qualified)
+
+<!--  ve chartjs-->
+  window.onload = function() {
+      const ctx = document.getElementById('myChart').getContext('2d')
+
+      loadChart(ctx, labels, data, 'doughnut', colors, borderColors, 'Thống kê đậu rớt môn học')
+  }
+</script>
+{% endblock %}

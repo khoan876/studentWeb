@@ -1,0 +1,82 @@
+{% extends 'layout/teacher-view.html' %}
+
+{% block title %} Nhập điểm {% endblock %}
+
+{% block content %}
+    <h1 class="text text-center">Chỉnh sửa điểm</h1>
+    <table class="student_marks table table-striped table-hover table-responsive table-bordered">
+        <thead>
+            <tr>
+                <th colspan="3">Học sinh: {{ marks[0].student.name}}</th>
+                <th colspan="3">Lớp: {{ request.args.get('class_name') }}</th>
+                <th colspan="3">Môn: {{ marks[0].subject.name}}</th>
+                <th colspan="2">Năm: {{ request.args.get('year') }}</th>
+            </tr>
+            <tr>
+                <td>Học kỳ</td>
+                <td colspan="5">Điểm 15 phút</td>
+                <td colspan="3">Điểm 1 tiết</td>
+                <td>Điểm cuối kỳ</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                {% for i in marks[0].mark15 %}
+                    {% if i %}
+                    <td><input type="number" class="mark15_1" value="{{ i }}" min="0" max="10"></td>
+                    {% else %}
+                    <td><input type="number" class="mark15_1" value="" min="0" max="10"></td>
+                    {% endif %}
+                {% endfor %}
+                {% for i in marks[0].mark45 %}
+                    {% if i %}
+                    <td><input type="number" class="mark45_1" value="{{ i }}" min="0" max="10"></td>
+                    {% else %}
+                    <td><input type="number" class="mark45_1" value="" min="0" max="10"></td>
+                    {% endif %}
+                {% endfor %}
+                {% if marks[0].final_mark %}
+                <td><input type="number" id="final_mark1" value="{{ marks[0].final_mark }}" min="0" max="10"></td>
+                {% else %}
+                <td><input type="number" id="final_mark1" value="" min="0" max="10"></td>
+                {% endif %}
+                <td></td>
+            </tr>
+            {% if marks[1] %}
+            <tr>
+                <td>2</td>
+                {% for i in marks[1].mark15 %}
+                    {% if i %}
+                    <td><input type="number" class="mark15_2" value="{{ i }}" min="0" max="10"></td>
+                    {% else %}
+                    <td><input type="number" class="mark15_2" value="" min="0" max="10"></td>
+                    {% endif %}
+                {% endfor %}
+                {% for i in marks[1].mark45 %}
+                    {% if i %}
+                    <td><input type="number" class="mark45_2" value="{{ i }}" min="0" max="10"></td>
+                    {% else %}
+                    <td><input type="number" class="mark45_2" value="" min="0" max="10"></td>
+                    {% endif %}
+                {% endfor %}
+                {% if marks[1].final_mark %}
+                <td><input type="number" id="final_mark2" value="{{ marks[1].final_mark }}" min="0" max="10"></td>
+                {% else %}
+                <td><input type="number" id="final_mark2" value="" min="0" max="10"></td>
+                {% endif %}
+                <td></td>
+            </tr>
+            {% endif %}
+        </tbody>
+    </table>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-info " type="submit"
+            onclick="updateMarks({{ marks[0].subject.id}},
+                                {{ marks[0].student.id}},
+                                {{ request.args.get('year') }})">Lưu</button>
+    </div>
+
+    <div id="alert" style="display:none" > Lưu thành công </div>
+{% endblock %}

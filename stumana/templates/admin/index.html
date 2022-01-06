@@ -1,0 +1,39 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+{% if current_user.is_authenticated %}
+<h1 class="text">Xin chào <span class="text-danger">{{ current_user.name }}</span></h1>
+<div id="demo" class="carousel slide align-center" data-ride="carousel">
+
+  <!-- Indicators -->
+  <ul class="carousel-indicators">
+    <li data-target="#demo" data-slide-to="0" class="active"></li>
+    <li data-target="#demo" data-slide-to="1"></li>
+  </ul>
+
+  <!-- The slideshow -->
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://res.cloudinary.com/quoc2401/image/upload/v1639145477/ie1_yqw3lk.png" alt="Los Angeles"
+           style="height:500px; width:100%">
+    </div>
+    <div class="carousel-item">
+      <img src="https://res.cloudinary.com/quoc2401/image/upload/v1639145479/ie2_bu2gak.png" alt="Chicago"
+           style="height:500px; width:100%">
+    </div>
+  </div>
+
+  <!-- Left and right controls -->
+  <a class="carousel-control-prev" href="#demo" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+  </a>
+  <a class="carousel-control-next" href="#demo" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+  </a>
+
+</div>
+{% else %}
+<h1 class="text-info">Đăng nhập để tiếp tục</h1>
+<a href="{{ url_for('user_login', next='/admin') }}" class="text-danger">Đăng nhập</a>
+ {% endif %}
+{% endblock %}

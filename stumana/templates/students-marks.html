@@ -1,0 +1,107 @@
+{% extends 'layout/teacher-view.html' %}
+
+{% block title %} Nhập điểm {% endblock %}
+
+{% block content %}
+    {% if course %}
+        <h1 class="text text-center">Nhập điểm cho học sinh</h1>
+    <table class="student_marks table table-striped table-hover table-responsive table-bordered">
+        <thead>
+            <tr>
+                <th colspan="3">Lớp: {{ course[0] + course[1] }}</th>
+                <th colspan="3">Môn: {{ course[2]}}</th>
+                <th colspan="3">Học kỳ:
+                    <select id="semester" name="semester" onchange="loadMarks({{ request.args.get('course_id') }})">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </th>
+                <th colspan="3" id="year">Năm: {{ course[3] }}</th>
+                <th></th>
+            </tr>
+            <tr>
+                <td>STT</td>
+                <td>Họ và tên</td>
+                <td colspan="5">Điểm 15 phút</td>
+                <td colspan="3">Điểm 1 tiết</td>
+                <td>Điểm cuối kỳ</td>
+                <td>Điểm trung bình môn</td>
+                <td></td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for m in marks %}
+            <tr id="{{ m.student_id }}">
+                <td>{{ marks.index(m) + 1 }}</td>
+                <td class="name">{{ m.student_name }}</td>
+                {% for i in m.mark15 %}
+                    {% if i %}
+                    <td class="marks mark15_{{ m.student_id }}">{{ i }}</td>
+                    {% else %}
+                    <td class="mark15_{{ m.student_id }}"></td>
+                    {% endif %}
+                {% endfor %}
+                {% for i in m.mark45 %}
+                    {% if i %}
+                    <td class="marks mark45_{{ m.student_id }}">{{ i }}</td>
+                    {% else %}
+                    <td class="mark45_{{ m.student_id }}"></td>
+                    {% endif %}
+                {% endfor %}
+                {% if m.final_mark  %}
+                <td class="marks" id="final_mark_{{ m.student_id }}">{{ m.final_mark }}</td>
+                {% else %}
+                <td id="final_mark_{{ m.student_id }}"></td>
+                {% endif %}
+                {% if m.avg_mark %}
+                <td class="marks" id="avg_mark_{{ m.student_id }}">{{ m.avg_mark }}</td>
+                {% else %}
+                <td id="avg_mark_{{ m.student_id }}"></td>
+                {% endif %}
+                <td>
+                    <a href="{{ url_for('edit_marks',
+                      student_id=m.student_id,
+                      subject_id=m.subject_id,
+                      year=course[3],
+                      class_name=course[0] + course[1],
+                      subject_name=course[2]) }}" title="Chỉnh sửa điểm">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+                 <td>
+                    <a href="{{ url_for('print_mark',
+                      student_id=m.student_id,
+                      subject_id=m.subject_id,
+                      year=course[3],
+                      class_name=course[0] + course[1],
+                      subject_name=course[2]) }}" title="Xuất điểm học kỳ">
+                        <i class="fas fa-file-export"></i>
+                    </a>
+                </td>
+            </tr>
+           {% endfor %}
+        </tbody>
+    </table>
+    <div>
+        {% for c in classes %}
+         <a href="{{ url_for('print_totalmark', class_name=c[1] + c[2]) }}" title="Xuất điểm cả năm">
+         <button type="button" class="btn btn-outline-warning" >In bảng điểm cả năm</button>
+         </a>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-md-7">
+            <h4 class="bg-lightgray text-info text-center">Thông báo</h4>
+            <hr>
+            <div class="border" style="height: 54vh">
+                {% block announce %}
+                {% endblock %}
+            </div>
+        </div>
+        <div class="col-md-5 border high-div">
+            <h3 class="bg-lightgray text text-center">Hướng dẫn sử dụng</h3>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
