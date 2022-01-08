@@ -2,11 +2,9 @@
 
 
 {% block body %}
-
-   <page size="A4">
+<div class="A4">
 
       <table class="table"  align="center" >
-
          <tr align="center">
             <th colspan="5"> BẢNG ĐIỂM MÔN HỌC</th>
          </tr>
@@ -21,16 +19,19 @@
             <td>Điểm TB HK2 </td>
          </tr>
 
-         <tr>
-            <td> </td>
-            <td> </td>
-            <td></td>
-            <td></td>
-            <td></td>
-         </tr>
+         {% for m in marks %}
+            <tr>
+                <td>{{ marks.index(m) + 1 }}</td>
+                <td>{{ m.student_name }}</td>
+                {% if m.avg_mark %}
+                <td>{{ m.avg_mark }}</td>
+                {% else %}
+                <td></td>
+                {% endif %}
+            </tr>
+         {% endfor %}
 
       </table>
-   </page>
-
+</div>
 
 {% endblock %}

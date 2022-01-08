@@ -1,0 +1,60 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Thêm học sinh {% endblock %}
+
+{% block body %}
+<div>
+    <h1 class="text text-center">Nhập học sinh mới</h1>
+    <div>
+    <table class="table table-striped table-hover table-responsive table-bordered">
+        <thead>
+            <a href="#" class="btn btn-default">
+                <i class="fa fa-plus"></i>Thêm học sinh
+            </a>
+        </thead>
+        <tbody>
+            <tr>
+                <td>id</td>
+                <td>Họ</td>
+                <td>Tên</td>
+                <td>Ngày sinh</td>
+                <td>Giới tính</td>
+                <td>Địa chỉ</td>
+                <td>Số điện thoại</td>
+                <td>Email</td>
+                <td>Ngày đăng ký</td>
+                <td>Active</td>
+                <td></td>
+            </tr>
+            {% for i in list_student %}
+            <tr>
+                <td>{{ i.id }}</td>
+                <td>{{ i.last_name }}</td>
+                <td>{{ i.first_name }}</td>
+                <td>{{ i.bday }}</td>
+                <td>
+                    {% if i.sex == 1 %}
+                         Nữ
+                    {% else %}
+                        Nam
+                    {% endif %}
+                </td>
+                <td>{{ i.address }}</td>
+                <td>{{ i.phone }}</td>
+                <td>{{ i.email }}</td>
+                <td>{{ i.join_date }}</td>
+                <td>{{ i.active }}</td>
+                <td href="#" >
+                    <a>
+                        <i class="fas fa-edit"></i>
+                    </a>
+                </td>
+
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</div>
+
+{% endblock %}

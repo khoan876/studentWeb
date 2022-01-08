@@ -358,17 +358,8 @@ def create_all_mark_records(course_id=None):
 def info_student():
     return db.session.query(Student).all()
 
-
-def total_year():
-    return db.session.query(Mark.year, Student.first_name, Student.last_name, ClassRoom.grade, ClassRoom.name, Mark.semester, Mark.FinalMark)\
-                            .join(Mark, Mark.student_id.__eq__(Student.id), isouter=True)\
-                            .join(Student, Student.class_id.__eq__(ClassRoom.id))\
-                            .group_by(Student.id)
-
-
-if __name__ =="__main__":
-     print(info_student())
-     # print(total_year())
+def info_course():
+    return db.session.query(Course).all()
 
 
 # Tu day tro xuong la de test = console

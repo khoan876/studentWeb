@@ -69,6 +69,48 @@ def change_rule():
 #                            avg=avg)
 
 
+# STAFF them hoc sinh
+@app.route("/add-newstudents",  methods=['get', 'post'])
+@login_required
+def list_students():
+    if current_user.user_role == UserRole.STAFF:
+        list_student = utilities.info_student()
+
+        return render_template("staff/list-students.html", list_student=list_student)
+    else:
+        return redirect("/")
+
+
+@app.route('/add-newstudents/add', methods=['GET', 'POST'])
+@login_required
+def add_students():
+    if current_user.user_role == UserRole.STAFF:
+
+        return render_template("layout/list-students.html")
+
+
+# @admin.route('/add-newstudents/edit/<int:student_id>', methods=['GET', 'POST'])
+# @login_required
+# def edit_student(student_id):
+
+
+
+
+
+
+
+
+# in danh sach hoc sinh moi
+@app.route("/print/newstudent")
+@login_required
+def print_student():
+    if current_user.user_role == UserRole.STAFF:
+        info_student = utilities.info_student()
+        return render_template("print/print_student.html", info_student=info_student)
+    else:
+        return redirect("/")
+
+
 @app.route("/students-marks")
 @login_required
 def students_marks():
@@ -107,27 +149,37 @@ def edit_marks(student_id):
         return redirect("/")
 
 
+# in diem hoc ky
 @app.route("/students-marks/print/<int:student_id>")
 @login_required
 def print_mark(student_id):
     if current_user.user_role == UserRole.TEACHER:
+        course = utilities.info_course()
         year = request.args.get('year')
         subject_id = request.args.get('subject_id')
         classes = utilities.get_classes_of_teacher(current_user.id)
         marks = utilities.get_marks_of_student(student_id=student_id,
                                                subject_id=subject_id,
                                                year=year)
-        return render_template("print/print_mark.html", marks=marks, classes=classes)
+        return render_template("print/print_mark.html", marks=marks, classes=classes, course=course)
     else:
         return redirect("/")
 
 
+# in diem ca nam
 @app.route("/students-marks/print")
 @login_required
 def print_totalmark():
     if current_user.user_role == UserRole.TEACHER:
         classes = utilities.get_classes_of_teacher(current_user.id)
-        return render_template("print/print_totalmark.html", classes=classes)
+        course_id = request.args.get('course_id')
+        course = utilities.get_course_info(course_id)
+        marks = utilities.get_mark_by_course_id(course_id=course_id)
+        return render_template("print/print_totalmark.html",
+                               marks=marks,
+                               course=course,
+                               classes=classes)
+
     else:
         return redirect("/")
 
@@ -175,6 +227,7 @@ def load_marks():
                         'marks': marks})
     except:
         return jsonify({'status': 404})
+
 
 # @app.route("/api/cal-avg", methods=['POST'])
 # def cal_avg():

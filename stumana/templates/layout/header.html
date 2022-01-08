@@ -40,6 +40,15 @@
 <!--                <a class="nav-link nav-item text-info mr-auto" id="nav_export_marks" href="{{ url_for('students_marks') }}">Xuất điểm</a>-->
             </div>
             {% endif %}
+            {% if current_user.user_role == UserRole.STAFF %}
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="nav-link nav-item " id="nav_list_students" href="{{ url_for('list_students') }}" >
+                    <i class="fa fa-user-plus" aria-hidden="true"></i>Đăng ký học sinh mới</a>
+                <a class="nav-link nav-item text-info mr-auto"
+                   id="nav_export_marks" href="{{ url_for('print_student') }}">
+                    <i class="fa fa-print" aria-hidden="true"></i>Xuất danh sách học sinh</a>
+            </div>
+            {% endif %}
         </div>
         {% endif %}
         <div class="btn-group">
