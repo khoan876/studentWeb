@@ -1,9 +1,10 @@
 {% extends 'print/base.html' %}
 
+{% block title %} Danh sách học sinh {% endblock %}
 
 {% block body %}
+<div class="A4">
 
-   <page size="A4">
    {% for i in info_student  %}
       <table class="table"  align="center">
 
@@ -12,7 +13,13 @@
          </tr>
          <tr>
             <td>Họ tên: {{ i.last_name }}  {{ i.first_name }}  </td>
-            <td>Giới tính: {{ i.sex }}  </td>
+            <td>Giới tính:
+               {% if i.sex == 1 %}
+                  Nữ
+               {% else %}
+                  Nam
+               {% endif %}
+            </td>
          </tr>
          <tr>
             <td>Ngày sinh: {{ i.bday }} </td>
@@ -24,7 +31,7 @@
          </tr>
       {% endfor %}
       </table>
-   </page>
+</div>
 
 
 {% endblock %}

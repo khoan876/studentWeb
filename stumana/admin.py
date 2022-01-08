@@ -55,6 +55,8 @@ class StudentModalView(AuthenticatedModelView):
     }
 
 
+
+
 class ClassModalView(AuthenticatedModelView):
     column_labels = {
         'grade': 'Khối',
@@ -74,6 +76,10 @@ class SubjectModelView(StudentModalView):
 
 class CustomPersonForm(StudentModalView):
     form_excluded_columns = ['user', 'classroom', 'classes']
+
+    def is_accessible(self):
+        if current_user.is_authenticated:
+            return current_user.user_role == UserRole.STAFF
 
 
 class CustomUserForm(StudentModalView):
@@ -114,23 +120,8 @@ class UserAllocation(AdminBaseView):    # de lam sau
 #         if current_user.is_authenticated:
 #             return current_user.user_role == UserRole.STAFF
 
-# in hoc sinh
-class PrintStudentView(AdminBaseView):
-    @expose('/')
-    def __index__(self):
-        info_student = utilities.info_student()
-        return self.render("print/print_student.html", info_student=info_student)
 
-
-# in diem ca nam
-# class PrintTotalMarkView(AdminBaseView):
-#     @expose('/')
-#     def __index__(self):
-#         total_year = utilities.total_year()
-#         return self.render("print/print_totalmark.html", total_year=total_year)
-
-
-class StatsView(StaffBaseView):
+class StatsView(AdminBaseView):
     @expose('/')
     def __index__(self):
         subject_name = request.args.get("subject", "Toán 11")
@@ -194,7 +185,7 @@ admin = Admin(app=app, name='Quản trị Trường THPT',
               index_view=MyAdminIndexView())
 admin.add_view(CustomUserForm(User, db.session,
                               name='Quản lý tài khoản',
-                              category="Tài khoản",
+                              
                               menu_icon_type='fa',
                               menu_icon_value='fa-users'))
 admin.add_view(UserAllocation(name="Cấp tài khoản",
@@ -252,21 +243,6 @@ admin.add_view(ChangeRule(name="Thay đổi quy định",
 admin.add_view(StatsView(name='Thống kê báo cáo',
                          menu_icon_type='fa',
                          menu_icon_value='fa-line-chart'))
-
-# bieu mau hoc sinh
-admin.add_view(PrintStudentView(name='In học sinh',
-                                category='Biểu mẫu',
-                                menu_icon_type='fa'))
-
-# bieu mau diem hoc ki
-# admin.add_view(PrintMarkView(name='In điểm học kì',
-#                              category='Biểu mẫu',
-#                              menu_icon_type='fa'))
-
-# bieu mau diem ca nam
-# admin.add_view(PrintTotalMarkView(name='In điểm cả năm',
-#                              category='Biểu mẫu',
-#                              menu_icon_type='fa'))
 
 
 admin.add_view(LogoutView(name="Đăng xuất",

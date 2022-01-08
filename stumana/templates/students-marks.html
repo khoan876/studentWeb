@@ -82,10 +82,20 @@
            {% endfor %}
         </tbody>
     </table>
-    <div>
+    <div align="right">
+        {% for m in marks %}
+        <a href="{{ url_for('print_mark',
+                      student_id=m.student_id,
+                      subject_id=m.subject_id,
+                      year=course[3],
+                      class_name=course[0] + course[1],
+                      subject_name=course[2]) }}" title="Xuất điểm học kỳ">
+            <button type="button" class="btn btn-outline-warning" >In bảng điểm học kỳ </button>
+        </a>
+        {% endfor %}
         {% for c in classes %}
          <a href="{{ url_for('print_totalmark', class_name=c[1] + c[2]) }}" title="Xuất điểm cả năm">
-         <button type="button" class="btn btn-outline-warning" >In bảng điểm cả năm</button>
+            <button type="button" class="btn btn-outline-warning" >In bảng điểm cả năm</button>
          </a>
         {% endfor %}
     </div>
